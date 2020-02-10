@@ -1,0 +1,67 @@
+<!doctype html>
+<html dir="rtl">
+{% load static %}
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="keywords" content=" سرمایه گذاری , طرح رایگان , سرمایه , نیاز به سرمایه , حامی طرح , سرمایه گذاری پربازده , سرمایه گذاری مطمئن , کشاورزی , عمرانی , ایده های نو , وب سایت حامی طرح ,  سایت حامی طرح">
+    <meta name="description" content=" نخستین سامانه آنلاین جذب سرمایه ،  طرح خود را ثبت کنید، مورد ارزیابی قرار بگیرید و به سرمایه گذاران حامی طرح معرفی شوید. ">
+    <meta name="enamad" content="440256671"/>
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <meta name="samandehi" content="441466066"/>
+
+    <title>حامی طرح</title>
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="{% static 'mainapp/css/material-design-iconic-font.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'mainapp/css/jquery-ui.min.css' %}" media="screen,projection">
+    <link type="text/css" rel="stylesheet" href="{% static 'mainapp/css/materialize.min.css' %}" media="screen,projection">
+    <link type="text/css" rel="stylesheet" href="{% static 'mainapp/css/materialize-stepper.min.css' %}" media="screen,projection">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="{% static 'mainapp/js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'mainapp/js/jquery-ui.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'mainapp/js/material.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'mainapp/js/materialize-stepper.min.js' %}" ></script>
+    <script type="text/javascript" src="{% static 'mainapp/js/app.min.js' %}"></script>
+
+
+
+
+
+
+    <link rel="stylesheet" href="{% static 'mainapp/css/base_app.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'mainapp/css/app.min.css' %}" media="screen,projection">
+
+
+
+
+    </head>
+
+    <body id="body" class="header-fixed">
+
+
+
+
+
+
+    {% block content %}
+    <!-- Here is the place to put blocks -->
+    {% endblock %}
+
+
+
+
+
+
+
+
+
+
+    {% block google %}
+        {% include 'mainapp/google_script_block.html' %}
+    {% endblock %}
+    </body>
+</html>

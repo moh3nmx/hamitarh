@@ -1,0 +1,144 @@
+{% load to-slash %}
+<h2 class="more-detail-title">اطلاعات تکمیلی طرح</h2>
+                <ul class="collapsible more-detail-accordion" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-format-list-bulleted right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'executiveSummary' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.executiveSummary }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-card darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'presentIncome' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.presentIncome }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-receipt darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'fundUsage' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.fundUsage }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-shopping-cart darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'estimatedCosts' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.estimatedCosts }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-fire darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'damage' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.damage }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-share darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'benefitShare' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.benefitShare }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-chart darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'rateOfReturn' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.rateOfReturn }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-globe darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'compet' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.compet }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-case darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'marketingPlan' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.marketingPlan }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-chart-donut darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'marketSize' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.marketSize}}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-assignment darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'resume' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.resume }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-case-check darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'credits' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.credits }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-share darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'investorShare' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.investorShare }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-chart darken-1 right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'revenueModel' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span>
+                            {{ ad.revenueModel }}
+                        </span></div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header"><i class="zmdi zmdi-file-plus right blue-text text-darken-3"></i>
+                            <b>{{ ad | verbose_name:'proposal' }}</b>
+                        </div>
+                        <div class="collapsible-body"><span class="center-block" style="text-align: center">
+                            <a href="{{ ad.proposal }}" class="btn">دانلود پروپوزال</a>
+                        </span></div>
+                    </li>
+
+
+                </ul>
+                <div class="card-panel input-field">
+                    <div class="row">
+                        <div class="col l60 s60">
+                            <div class="row">
+                                <h2 class="blue-text">ارزیابی فنی حامی طرح</h2>
+                                <div class="center-block">
+                                    <br>
+                                    {% if ad.review %}
+                                    <a class="btn" href="{{ ad.review.url }}">مشاهده گزارش</a>
+                                    {% else %}
+                                    <h3 class="">در دست بررسی</h3>
+                                    {% endif %}
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>

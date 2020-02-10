@@ -1,0 +1,32 @@
+{% load static %}
+{% load to-slash %}
+{% load jalali_tags %}
+                        <div class="col l15 s30" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-account zmdi-hc-2x"></i>
+                                <h3 type="text" class="commify center-align">{{ ad.owner }}</h3>
+                            </span>
+                        </div>
+                        <div class="col l15 s30" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-money-box zmdi-hc-2x"></i>
+                                <h3 type="text" class="commify center-align"><span class="fund">{{ ad.fund }}</span>   تومان </h3>
+                            </span>
+                        </div>
+                        <div class="col l15 s30" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-time zmdi-hc-2x"></i>
+                                {% if ad.lastModified %}
+                                    <h3 type="text" class="commify center-align">{{ ad.dateCreated | to_jalali:'%y/%m/%d' }}</h3>
+                                {% else %}
+                                    <h3 type="text" class="commify center-align">نامشخص</h3>
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="col l15 s30" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-pin zmdi-hc-2x"></i>
+                                <h3 type="text" class="commify center-align">{{ ad.location }}</h3>
+                            </span>
+                        </div>

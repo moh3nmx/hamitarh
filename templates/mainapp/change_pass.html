@@ -1,0 +1,71 @@
+{% extends 'mainapp/panel_base.html' %}
+{% load static %}
+{% load jalali_tags %}
+
+{% block contents %}
+
+    {% block panel_header %}
+        {% include 'mainapp/panel_fixed_header.html' %}
+    {% endblock %}
+
+
+<div class="row" id="panel-content">
+    {% block panel_side %}
+        {% include 'mainapp/panel_side.html' %}
+    {% endblock %}
+      <div class="col m30 offset-m9 s50 offset-s5 nopaded" >
+        <div class="card" style="border-radius: 8px">
+            <div class="container">
+                <div class="row">
+
+                    <div class="panel panel-default col-md-8 col-md-offset-2">
+                        <br>
+                        <div class="white center-align"><h1 style="padding: 10px" class="center-align zmdi zmdi-lock-open zmdi-hc-4x"></h1></div>
+                        {% if notmatch %}
+                    <div class="white center-align"><h2 style="padding: 10px" class="center-align red-text text-darken-2"> عدم تطابق! </h2></div>
+                        {% endif %}
+                        <div class="panel-body col-md-12">
+                            <form id="login_form_membership" class="form-horizontal right-align" role="form" method="POST" action="">
+                                {% csrf_token %}
+                                <h3 class="center-align red-text" id="pass-error"></h3>
+                                <input name="next" type="hidden" value="" />
+                                <div class="form-group">
+
+
+                                    <div class="input-field" id="password">
+                                        <input id="password" type="password" class="validate" name="password2" value="">
+                                        <label for="password"><span class="red-text">*</span> رمز عبور جدید</label>
+                                    </div>
+                                </div>
+                                <br>
+                                 <div class="form-group">
+                                    <div class="input-field" id="password2">
+                                        <input id="password2" type="password" class="validate" name="password1" value="">
+                                        <label for="password2"><span class="red-text">*</span> تکرار رمز عبور جدید</label>
+                                    </div>
+                                </div>
+                              <br>
+                                <div class="form-group">
+                                    <div class="col-md-12 center-align">
+                                        <button type="button" class="btn btn-primary" onclick="passwordCheck()">
+                                            <i class=""></i> تغییر رمز
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+
+</div>
+
+    {% block google %}
+        {% include 'mainapp/google_script_block.html' %}
+    {% endblock %}
+{% endblock %}

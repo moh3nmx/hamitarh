@@ -1,0 +1,583 @@
+{% extends 'mainapp/panel_base.html' %}
+{% load static %}
+{% load jalali_tags %}
+
+{% block contents %}
+
+
+
+
+
+
+
+
+    {% block panel_header %}
+        {% include 'mainapp/panel_fixed_header.html' %}
+    {% endblock %}
+
+        {% if not ad.fundingStep %}
+           <div id="myModal" class="modal z-depth-1 card panel-modal">
+
+              <!-- Modal content -->
+              <div class="modal-content card-content">
+                <div class="modal-header card-header">
+
+                  <h3 class="black-text" style="line-height: 25px">برای ورود به فرایند جذب سرمایه باید اطلاعات این صفحه را با دقت تمام و بطور کامل تکمیل نمایید.</h3>
+                </div>
+                <div class="align-left card-footer">
+{#                    <a href="" class="btn btn-default red" id="modal-delete">حذف</a>#}
+                    <a class="btn btn-default green white-text" id="close">ادامه</a>
+                </div>
+              </div>
+
+            </div>
+
+        {% endif %}
+
+        <div class="row" id="panel-content">
+            {% block panel_side %}
+                {% include 'mainapp/panel_side.html' %}
+            {% endblock %}
+
+
+            <div class="col s60 m60 l48">
+                <div class="row" id="user-panel">
+                    <div class="col s60 l60 m60 admin-panel-main">
+                    <form id="stepNum" method="post">
+                        {% csrf_token %}
+                        {% if ad.fundingStep == '0' and ad.review %}
+                            <input name="step" id="step-no" type="hidden" value="{{ ad.fundingStep|add:1 }}" /> <!-- for steps -->
+                        {% elif ad.fundingStep %}
+                            <input name="step" id="step-no" type="hidden" value="{{ ad.fundingStep }}" />
+                        {% else %}
+                            <input name="step" id="step-no" type="hidden" value="0" /> <!-- for steps -->
+                        {% endif %}
+                    </form>
+                        <div class="card">
+                            <div class="card-content steps-holder" style="box-sizing: inherit">
+                                <div class="card-header">فرایند جذب سرمایه برای <b>{{ ad.title }}</b></div>
+                                    <section id="employer-post-new-job">
+                                        <div class="row">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col s60" id="container" dir="rtl" >
+                                                        <div class="res-steps-container" style="direction: rtl">
+                                                            <div class="res-steps res-step-zero" data-class=".res-form-one">
+                                                                <div class="res-step-bar">0</div>
+                                                                <div class="res-progress-bar"></div>
+                                                                <div class="res-progress-title">ثبت طرح</div>
+                                                            </div>
+                                                            <div class="res-steps res-step-one active" data-class=".res-form-one">
+                                                                <div class="res-step-bar">1</div>
+                                                                <div class="res-progress-bar"></div>
+                                                                <div class="res-progress-title">نقد و بررسی فنی طرح</div>
+                                                            </div>
+                                                            <div class="res-steps res-step-two" data-class=".res-form-two">
+                                                                <div class="res-step-bar">2</div>
+                                                                <div class="res-progress-bar"></div>
+                                                                <div class="res-progress-title">جلسه ارزیابی اقتصادی</div>
+                                                            </div>
+                                                            <div class="res-steps res-step-three" data-class=".res-form-three">
+                                                                <div class="res-step-bar">3</div>
+                                                                <div class="res-progress-bar"></div>
+                                                                <div class="res-progress-title">معرفی به سرمایه گذار</div>
+                                                            </div>
+                                                            <div class="res-steps res-step-four" data-class=".res-form-four">
+                                                                <div class="res-step-bar">4</div>
+                                                                <div class="res-progress-bar"></div>
+                                                                <div class="res-progress-title">عقد قرارداد</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix">&nbsp;</div>
+                                                        <div class="clearfix">&nbsp;</div>
+                                                        <div class="res-step-form col s60 res-form-one ">
+                                                            <h2 class="text-center center-align blue-text">نقد و بررسی فنی طرح</h2>
+                                                        {% if ad.fundingStep == '0' and not ad.review %}
+                                                            <p class="green-text" style="text-align: center; padding: 8px">
+                                                            اطلاعات شما با موفقیت ثبت شد.  <br>درصورت نیاز به تکمیل میتوانید تا قبل از آماده شدن گزارش ارزیابی طرح نسبت به تکمیل موارد زیر اقدام نمایید.
+                                                            </p>
+                                                        {% endif %}
+                                                            <form id="more_detail" class="" action="" method="post" enctype="multipart/form-data" >
+                                                                {% csrf_token %}
+                                                                {% if not ad.fundingStep or ad.fundingStep == '0' and not ad.review %}
+{#                                                                    <h3 class="step-desc black-text">طرح شما ثبت شده و پس از تایید اولیه به نمایش عموم بازدید کنندگان گذاشته می‌شود. برای سرمایه پذیری از طریق باشگاه سرمایه گذاران حامی طرح می‌بایست طرح خود را برای نقد و داوری در#}
+{#                                                                                                                                                                                                اختیار ارزیابان اقتصادی قرار دهید.#}
+{#                                                                    <br>#}
+{#این داوری شامل بخش های :#}
+{#                                                                    <b>#}
+{#                                                                        <br>#}
+{#- نظر کارشناش فنی حوزه مربوطه راجع به طرح#}
+{#                                                                    <br>#}
+{#- آنالیز بازار طرح توسط تیم اقتصادی#}
+{#                                                                    <br>#}
+{#- بررسی مدل درآمدی#}
+{#                                                                    <br>#}
+{#- بررسی پتانسیل ها و توانایی های اجرای طرح#}
+{#                                                                    </b>#}
+{#                                                                    <br>#}
+{#            می‌باشد و توسط یک کارشناس متخصص در حوزه طرح شما و تیم اقتصادی حامی‌طرح تدوین می‌گردد. در صورت دریافت نقد مثبت، طرح شما وارد فرایند سرمایه پذیری و ارائه به سرمایه گذار می شود. لازم به ذکر که نقد طرح شما یکی از مهم ترین مستندات قابل ارائه به سرمایه گذار است لذا توصیه می کنیم قبل از درخواست نقد طرح از کامل بودن اطلاعات وارد شده اطمینان حاصل کنید.#}
+{#                                                                    <br>#}
+{##}
+{#                                                                <b>* نقد و داوری طرح ها به مدت محدود رایگان می باشد.</b>#}
+{#                                                                </h3>#}
+                                                                    <br>
+                                                                    <div id="tabs-2" style="">
+
+                                                                        <div class="col s60 l30">
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field" style="min-height: 130px">
+                                                                                        <div class="file-field input-field">
+                                                                                            <div class="btn btn-file">
+                                                                                                <span>فایل پروپوزال</span>
+                                                                                                <input type="file" name="proposal">
+                                                                                            </div>
+                                                                                            <div class="file-path-wrapper">
+                                                                                                <input class="file-path validate" type="text" placeholder="فایل پروپوزال را انتخاب کنید">
+                                                                                                <a class="form-download" href="{% static 'mainapp/form.doc' %}">نمونه فرم خام پروپوزال</a>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col s60 l30">
+
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field" style="min-height: 130px">
+                                                                                        <div class="file-field input-field">
+                                                                                            <div class="btn btn-file">
+                                                                                                <span>تصویر طرح</span>
+                                                                                                <input type="file" name="images">
+                                                                                            </div>
+                                                                                            <div class="file-path-wrapper">
+                                                                                                <input class="file-path" type="text" placeholder="یک عکس انتخاب کنید">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col s60 l30">
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-card prefix"></i>
+                                                                                        <textarea id="exe_outline" name="exe_outline" class="materialize-textarea" placeholder="برای مثال:&#x0a;خلاصه روند اجرایی کارخانه ما برای افزایش تولید و افزایش سوددهی بدین صورت می باشد که ابتدا همراه با روند جذب سرمایه، با روشی جدید مواد اولیه را تولید می‌کنیم. سپس دستگاه های جدید مورد نیاز خریداری میشوند و با افزایش تعداد مشتریان جدید از طریق تبلیغات ، در 6 ماه اول فروش 1.5 برابر شده و تا پایان سال اول فروش 3 برابر شده و هزینه های متغیر را نصف میکنیم." style="min-height: 200px">{{ ad.executiveSummary }}</textarea>
+                                                                                        <label for="exe_outline">خلاصه اجرایی طرح</label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-chart-donut prefix"></i>
+                                                                                        <textarea id="market_size" name="market_size" class="materialize-textarea" placeholder="برای مثال:&#x0a;" style="min-height: 150px">{{ ad.marketSize }}</textarea>
+                                                                                        <label for="market_size">اندازه بازار و رقبای موجود</label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+                                                                                        <i class="zmdi zmdi-case prefix"></i>
+                                                                                        <textarea id="marketing_plan" name="marketing_plan" class="materialize-textarea" placeholder="برای مثال:&#x0a;" style="min-height: 150px">{{ ad.marketingPlan }}</textarea>
+                                                                                        <label for="marketing_plan">برنامه تبلیغات و بازاریابی</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+                                                                                        <i class="zmdi zmdi-receipt prefix"></i>
+                                                                                        <textarea id="usage" name="usage" class="materialize-textarea" placeholder="برای مثال:&#x0a;20 درصد سرمایه جذب شده صرف خرید تجهیزات ، 20 درصد برای تبلیغات و بازاریابی ، 30 درصد برای جذب نیروی جدید و مابقی جهت تامین مواد اولیه صرف خواهد شد. " style="min-height: 150px">{{ ad.fundUsage }}</textarea>
+                                                                                        <label for="usage">نحوه استفاده از سرمایه جذب شده</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-card prefix"></i>
+                                                                                        <textarea id="present_income" name="present_income" class="materialize-textarea" placeholder="برای مثال:&#x0a;درآمد سال اول 150 میلیون تومان و سال دوم 180 میلیون تومان و ... " style="min-height: 150px">{{ ad.presentIncome }}</textarea>
+                                                                                        <label for="present_income"> درآمد سالانه </label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-assignment prefix"></i>
+                                                                                        <textarea id="resume" name="resume" class="materialize-textarea" placeholder="برای مثال:&#x0a;  اینجانب به مدت ۵ سال در این زمینه فعالیت کرده ام و گواهی .. و .. و .. را کسب نموده ام. (یا) بنده در شرکت .. سمت .. را دارم و این شرکت .. سال سابقه فعالیت در این زمینه را دارد." style="min-height: 150px">{{ ad.resume }}</textarea>
+                                                                                        <label for="resume">سابقه کاری </label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-chart prefix"></i>
+                                                                                        <textarea id="rate_of_return" name="rate_of_return" class="materialize-textarea" placeholder="برای مثال:&#x0a;برای سال اول 40 درصد و برای سال دوم 60 درصد و ..." style="min-height: 150px">{{ ad.rateOfReturn }}</textarea>
+                                                                                        <label for="rate_of_return">نرخ بازگشت سرمایه </label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+                                                                                        <span class="detail"><i class="zmdi zmdi-check-circle prefix" data-position="left" data-delay="50" data-tooltip=""></i>
+                                                                                            <input type="number" name="expected_gain"  value="{{ ad.expected_gain }}" placeholder="سود مورد انتظار (درصد) " ></span>
+                                                                                        <span class="detail"><i class="prefix farsipref">در</i>
+                                                                                            <input type="number" name="expected_time"  value="{{ ad.expected_time }}" placeholder="زمان پیش بینی شده (ماه) " ></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                        <div class="col s60 l30">
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-case-check prefix"></i>
+                                                                                        <textarea id="credits" name="credits" class="materialize-textarea" placeholder="برای مثال:&#x0a;سند ملک به ارزش 200 میلیون تومان و یا چک به مبلغ اصل سرمایه برای تضمین ارایه میگردد. " style="min-height: 200px">{{ ad.credits }}</textarea>
+                                                                                        <label for="credits">نحوه ضمانت </label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-fire prefix"></i>
+                                                                                        <textarea id="damage" name="damage" class="materialize-textarea" placeholder="برای مثال:&#x0a;سند ملک به ارزش 200 میلیون تومان و یا چک به مبلغ اصل سرمایه برای تضمین ارایه میگردد. " style="min-height: 150px">{{ ad.damage }}</textarea>
+                                                                                        <label for="damage">نحوه برخورد در صورت زیان </label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-globe prefix"></i>
+                                                                                        <textarea id="compet" name="compet" class="materialize-textarea" placeholder="برای مثال:&#x0a;" style="min-height: 150px">{{ ad.compet }}</textarea>
+                                                                                        <label for="compet">مزیت رقابتی نسبت به موارد مشابه</label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-share prefix"></i>
+                                                                                        <textarea id="investor_Share" name="investor_share" class="materialize-textarea" placeholder="برای مثال:&#x0a;در صورت توافق 30 درصد سهام طرح به سرمایه گذار واگذار میگردد. " style="min-height: 150px">{{ ad.investorShare }}</textarea>
+                                                                                        <label for="investor_Share">درصد مشارکت سرمایه گذار</label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-share prefix"></i>
+                                                                                        <textarea id="benefit_Share" name="benefit_share" class="materialize-textarea" placeholder="برای مثال:&#x0a;60 درصد از سود حاصله به مجری و ما بقی به سرمایه گذار می رسد. " style="min-height: 150px">{{ ad.benefitShare }}</textarea>
+                                                                                        <label for="benefit_Share">نحوه تقسیم سود</label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-shopping-cart prefix"></i>
+                                                                                        <textarea id="costs" name="costs" class="materialize-textarea" placeholder="برای مثال:&#x0a;هزینه ثابت شامل خرید تجهیزات اولیه به مبلغ 90 میلیون تومان و هزینه دوره ای بصورت ماهانه به مبلغ 10 میلیون تومان برای خرید مواد اولیه و دستمزد پرسنل و ... تخمین زده شده است. " style="min-height: 150px">{{ ad.estimatedCosts }}</textarea>
+                                                                                        <label for="costs">هزینه های پیش بینی شده</label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-chart prefix"></i>
+                                                                                        <textarea id="revenue_model" name="revenue_model" class="materialize-textarea" placeholder="برای مثال:&#x0a;بصورت بدبینانه درآمد حاصل از فروش محصولات ماهیانه 50 میلیون تومان و درآمد حاصل از ارایه خدمات مشاوره ماهیانه 30 میلیون تومان و ..." style="min-height: 150px">{{ ad.revenueModel }}</textarea>
+                                                                                        <label for="revenue_model">نحوه و میزان کسب درآمد (مدل درآمدی) </label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="item col s60 nopaded">
+                                                                                <div class="col s60 right-align">
+                                                                                    <div class="card-panel input-field">
+
+                                                                                        <i class="zmdi zmdi-accounts prefix"></i>
+                                                                                        <textarea id="present_customers" name="present_customers" class="materialize-textarea" placeholder="برای مثال:&#x0a;بصورت بدبینانه درآمد حاصل از فروش محصولات ماهیانه 50 میلیون تومان و درآمد حاصل از ارایه خدمات مشاوره ماهیانه 30 میلیون تومان و ..." style="min-height: 150px">{{ ad.presentCustomers }}</textarea>
+                                                                                        <label for="present_customers">تعداد مشتریان کنونی </label>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                        </div>
+
+                                                                        <div class="col s60 form-group center-block">
+                                                                            <br>
+                                                                            <div class="text-center  center-align center-block" id="form-msg">
+
+
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col s60 form-group center-block">
+                                                                            <br>
+                                                                            <div class="text-center  center-align">
+                                                                                {% if not ad.fundingStep %}
+                                                                                <button type="button" onclick="InvestFormCreate()" form="more_detail" class="btn btn-default btn res-btn-orange" data-class=".res-form-one">شروع فرایند جذب سرمایه</button>
+                                                                                {% elif ad.fundingStep == '0' %}
+                                                                                <button type="button" onclick="InvestFormCreate()" form="more_detail" class="btn btn-default btn res-btn-orange" data-class=".res-form-one">ویرایش اطلاعات</button>
+
+                                                                                {% endif %}
+                                                                                <br>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+
+{#                                                                {% else %}#}
+{#                                                                    <br>#}
+{#                                                                    <h3 class="step-desc text-center center-align green-text darken-text-4" style="text-align: center">طرح شما در دست بررسی است . نتیجه از طریق پیامک برای شما ارسال خواهد شد.</h3>#}
+                                                                {% endif %}
+                                                            </form>
+                                                        </div>
+                                                        <div class="res-step-form col s60 res-form-two">
+                                                            <h2 class="text-center blue-text center-align">جلسه ارزیابی اقتصادی</h2>
+                                                            <form class="form-horizontal">
+                                                            {% if ad.fundingStep == '1' %}
+                                                                {% if ad.isInvited %}
+                                                                 <h3 class="step-desc black-text"> ضمن عرض تبریک! <br>احتراما بدینوسیله از شما دعوت بعمل می آید تا در تاریخ {{ ad.InvitationDate|to_jalali:'%y/%m/%d' }} ساعت  {{ ad.InvitationDate|to_jalali:'%H:%M' }}  در دفتر حامی‌طرح واقع در تهران، خیابان کارگر شمالی، دانشکده فنی دانشگاه تهران، پارکینگ قلمچی، شتاب‌دهنده دیموند حضور بهم رسانید. </h3>
+                                                                {% else %}
+                                                                    <br>
+                                                                 <h3 class="step-desc center-align green-text darken-text-4" style="text-align: center">درخواست شما در حال پیگیری است. زمان برگزاری جلسه از طریق وبسایت و پیامک به شما اطلاع داده می شود.</h3>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                {% if ad.isReviewOK %}
+                                                                <h3 class="step-desc black-text"> ضمن عرض تبریک! <br>طرح شما مورد تایید تیم ارزیابی سایت قرارگرفته است. لطفا درصورت علاقمندی برای برگزاری جلسه حضوری از طریق لینک زیر اقدام نمایید. ساعت و مکان برگزاری جلسه ظرف مدت یک روز کاری به صورت تلفنی به اطلاع شما خواهد رسید.</h3>
+
+                                                                <div class="form-group center-align">
+                                                                    <div class="text-center">
+                                                                        <button type="submit" form="stepNum" class="btn btn-default col-xs-offset-1 btn res-btn-orange" data-class=".res-form-two">درخواست جلسه حضوری</button>
+                                                                    </div>
+                                                                </div>
+                                                                {% elif ad.review %}
+                                                                <h3 class="step-desc black-text">متاسفانه در حال حاضر طرح شما واجد شرایط سرمایه گذاری نمی باشد. جهت بررسی دقیق تر مشکلات طرح و رفع آن لطفا فایل نقد موجود در پیوست و گزارش مربوطه را مطالعه فرمایید.</h3>
+
+
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            </form>
+                                                        </div>
+                                                        <div class="res-step-form col s60 res-form-three">
+                                                            <h2 class="text-center blue-text center-align">معرفی به سرمایه گذار</h2>
+                                                            <form class="form-horizontal">
+                                                                {% if ad.isInterviewOK and not ad.isPresented %}
+                                                                <h3 class="step-desc black-text"> ضمن عرض تبریک مجدد! <br>طرح شما مورد تایید تیم ارزیابی قرار گرفت. طرح شما پس از تکمیل توسط تیم حامی طرح به باشگاه سرمایه گذاران ارايه خواهد شد.</h3>
+                                                                {% elif ad.isPresented %}
+                                                                    <h3 class="step-desc black-text">طرح شما برای باشگاه سرمایه گذاران حامی طرح ارسال گردید. نتیجه فرآیند به مجرد دریافت پاسخ از سرمایه گذار از طریق وبسایت و پیامک به شما اطلاع داده می شود.</h3>
+                                                                {% endif %}
+                                                            </form>
+                                                        </div>
+                                                        <div class="res-step-form col s60 res-form-four">
+                                                            <h3 class="text-center">Add Title &amp; Description 4</h3>
+                                                            <form class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label for="choose-title" class="col s15 control-label">Choose Title</label>
+                                                                    <div class="col s40">
+                                                                        <input type="text" class="form-control" id="choose-title" placeholder="Choose Title">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="inputPassword3" class="col s15 control-label">Description</label>
+                                                                    <div class="col s40">
+                                                                        <textarea class="form-control" rows="3" placeholder="Add Description"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="text-center">
+                                                                        <button type="button" class="btn btn-default btn res-btn-gray" data-class=".res-form-four">Back</button>
+                                                                        <button type="button" class="btn btn-default col-xs-offset-1 btn res-btn-orange" data-class=".res-form-four">Preview</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                <br>
+                            </div>
+                        </div>
+
+                        {% if ad.interviewReport %}
+                        <div class="card">
+                            <div class="card-content">
+                                <h2 class="text-center blue-text center-align">گزارش جلسه</h2>
+                                <h3 class="step-desc black-text" style="text-align: center;padding: 10px">لطفا گزارش مربوط به جلسه حضوری را مطالعه نمایید.</h3>
+                                <br>
+                                <h3 class="text-center blue-text center-align">گزارش</h3>
+                                <p class="step-desc black-text" style="text-align: center;padding: 10px">{{ ad.interviewReport|safe|linebreaks }}</p>
+                                <br>
+                                    <div class="form-group center-align">
+                                    <div class="text-center">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if ad.report %}
+                        <div class="card">
+                            <div class="card-content">
+                                <h2 class="text-center blue-text center-align">نقد و گزارش</h2>
+                                <h3 class="step-desc black-text" style="text-align: center;padding: 10px">لطفا فایل نقد و گزارش مربوط به طرح را مطالعه نمایید.</h3>
+                                <br>
+                                <h3 class="text-center blue-text center-align">گزارش نقد و داوری</h3>
+                                <p class="step-desc black-text" style="text-align: center;padding: 10px 50px">{{ ad.report|safe|linebreaks }}</p>
+                                <br>
+
+                                {% if ad.review %}
+                                    <div class="form-group center-align">
+                                    <div class="text-center">
+                                        <a href="{{ ad.review.url }}" class="btn btn-default btn res-btn-gray">مشاهده نقد</a>
+                                    </div>
+
+                                {% endif %}
+
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+</div>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="{% static 'mainapp/js/stpes.js' %}" ></script>
+<script>
+    $('.delete-btn').click(function () {
+    console.log(this.getAttribute('name'));
+    $('a#modal-delete').attr('href' ,  this.getAttribute('name') );
+    });
+
+$('th').addClass('center-align');
+$('td').addClass('center-align');
+
+
+
+var step_no = $('#step-no').val();
+var descHeight;
+    switch (step_no){
+        case '0':
+            descHeight = parseInt($('.res-form-one').css('height'))+320;
+
+            break;
+        case '1':
+            descHeight = parseInt($('.res-form-two').css('height'))+320;
+            break;
+        case '2':
+            descHeight = parseInt($('.res-form-three').css('height'))+320;
+
+    }
+
+$('div.steps-holder').css('height',descHeight+'px');
+
+$(window).resize(function () {
+    var descHeight;
+    switch (step_no){
+        case '0':
+            descHeight = parseInt($('.res-form-one').css('height'))+320;
+            break;
+        case '1':
+            descHeight = parseInt($('.res-form-two').css('height'))+320;
+            break;
+        case '2':
+            descHeight = parseInt($('.res-form-three').css('height'))+320;
+
+    }
+    $('div.steps-holder').css('height',descHeight+'px');
+});
+$('textarea').keydown(function () {
+    switch (step_no){
+        case '0':
+            descHeight = parseInt($('.res-form-one').css('height'))+320;
+
+            break;
+        case '1':
+            descHeight = parseInt($('.res-form-two').css('height'))+320;
+            break;
+        case '2':
+            descHeight = parseInt($('.res-form-three').css('height'))+320;
+
+    }
+    $('div.steps-holder').css('height',descHeight+'px');
+});
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+
+};
+var modal = document.getElementById('myModal');
+var btn = $('.delete-btn');
+var span = document.getElementById("close");
+$(document).ready(function() {
+    $('#myModal').show();
+}
+    );
+span.onclick = function() {
+    modal.style.display = "none";
+};
+</script>
+
+    {% block google %}
+        {% include 'mainapp/google_script_block.html' %}
+    {% endblock %}
+
+{% endblock %}

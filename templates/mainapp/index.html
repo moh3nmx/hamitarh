@@ -1,0 +1,288 @@
+{% load static %}
+{% load jalali_tags %}
+{% load to-slash %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9"/>
+    <meta name="keywords" content=" سرمایه گذاری , طرح رایگان , سرمایه , نیاز به سرمایه , حامی طرح , سرمایه گذاری پربازده , سرمایه گذاری مطمئن , کشاورزی , عمرانی , ایده های نو , وب سایت حامی طرح ,  سایت حامی طرح">
+    <meta name="description" content=" نخستین سامانه آنلاین جذب سرمایه ،  طرح خود را ثبت کنید، مورد ارزیابی قرار بگیرید و به سرمایه گذاران حامی طرح معرفی شوید. ">
+    <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+{#    <meta name="samandehi" content="453234768"/>#}
+
+    <title>حامی طرح | نخستین سامانه آنلاین جذب سرمایه</title>
+
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'mainapp/css/material-design-iconic-font.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link href="{% static 'mainapp/css/materializep.min.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="{% static 'mainapp/css/style.min.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <style>
+
+        .caption p {
+            text-align: justify;
+            line-height: 22px;
+        }
+
+    </style>
+</head>
+<body class="blue-grey lighten-5">
+    <ul id="slide-out" class="side-nav" style="padding-right: 0">
+        <li>
+            <div class="user-view">
+                <div class="background blue lighten-5">
+                </div>
+                <a><img class="circle" src="{% static 'mainapp/img/logo.png' %}"></a>
+                <a><span class="white-text name">{{ request.user.name }}</span></a>
+                <a><span class="white-text email" style="font-size: 8px">{% if user.isInvestor %} حساب سرمایه گذار {% elif user.is_authenticted %} حساب سرمایه پذیر {% endif %}</span></a>
+            </div>
+        </li>
+
+        <li><div class="divider"></div></li>
+        {% if not request.user.is_authenticated %}
+            <li><a href="{% url 'authentication:register' %}">ثبت نام رایگان</a></li>
+            <li><a href="{% url 'authentication:login' %}">ورود به سایت</a> </li>
+        {% else %}
+            <li><a href="{% url 'my:panel' %}">{{ user.name }}</a></li>
+            <li><a href="{% url 'authentication:logout' %}">خروج</a> </li>
+        {% endif %}
+    </ul>
+    <div class="">
+        <nav class="blue lighten-5" role="navigation">
+        <div class="nav-wrapper">
+
+            <a id="logo-container" href="#" class="brand-logo"><img class="home-nav-logo" src="{% static 'mainapp/img/logo.png' %}" width="50"> حامی طرح </a>
+              <ul class="hide-on-med-and-down">
+                  {% if not user.is_authenticated %}
+                      <li class="black-text"><a href="/login">ورود</a></li>
+                      <li class="black-text"><a href="/register">ثبت نام</a></li>
+                  {% else %}
+                      <li class="black-text"><a href="/logout">خروج</a></li>
+                      <li class="white-text"><a href="/my/panel"> <span>{{ user.name }}</span> </a></li>
+                  {% endif %}
+                  <li class="black-text"><a href="{% url 'my:create_ad' %}">ثبت طرح</a></li>
+              </ul>
+
+
+            <a href="#" data-activates="slide-out" class="button-collapse white-text"><i class="zmdi zmdi-menu"></i></a>
+        </div>
+      </nav>
+    </div>
+
+
+  <div>
+        <div class="no-pad-bot">
+              <div class="slider home-slider">
+                    <ul class="slides">
+                        <!-- each slide -->
+                        {% for slide in Slides %}
+                        <li class="img-overlay">
+                            <a href="{{ slide.link }}" ><img src="{{ slide.image.url }}"> <!-- random image -->
+                                <div class="caption center-align">
+
+                                    <h4 class="bold grey-text text-lighten-5">{{ slide.title }}</h4>
+                                    <p class="light grey-text text-lighten-3">{{ slide.content|safe|truncatechars:400 }}</p>
+                                    <br>
+                                    <a class="btn blue btn-large" href="{{ slide.link }}">مشاهده متن کامل</a>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+
+                    </ul>
+              </div>
+        </div>
+{#    <div class="parallax"><img src="{% static 'mainapp/img/background1.jpg' %}" alt="Unsplashed background img 1"></div>#}
+  </div>
+
+
+  <div class="container home-projects" id="projects">
+      <div class="row content hideContent" >
+                <div class="col s12">
+                    <p class="bold right" style="padding-bottom: 10px">گزیده طرح ها</p>
+                    <a href="{% url 'ads:show_all_ads' %}" class="btn blue lighten-5 left">مشاهده همه طرح ها</a>
+                </div>
+                {% for ad in top3 %}
+                <div class="col l4 m6 s12">
+                    <div class="card">
+                        <div class="card-content img-box-zoom ">
+                            <div>
+                                <a href="{% url 'ads:show_ad' ad.id %}">
+                                    <div class="img-zoom six-4-div" style="background-image: url({% if ad.images %}{{ ad.images.url }}{% else %}
+                                        {% static 'mainapp/img/deaf.jpg' %}
+                                    {% endif %})">
+
+                                    </div>
+                                    <div class="project-card-detail">
+                                        <p class="bold"><i class="zmdi zmdi-format-subject zmdi-hc-2x"></i>{{ ad.title }}</p>
+                                        <p>{{ ad.summary|truncatechars:100 }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+{#                <div class="hidden-items hide-on-med-and-down" style="display: none">#}
+{#                    {% for ad in ads_list %}#}
+{#                        {% if ad.showInSite %}#}
+{#                            <div class="col l4 m6 s12">#}
+{#                                <div class="card">#}
+{#                                    <div class="card-content img-box-zoom ">#}
+{#                                        <div>#}
+{#                                            <a href="">#}
+{#                                                <div class="img-zoom six-4-div" style="background-image: url( '{% static 'mainapp/img/card-back.jpg' %}' )">#}
+{##}
+{#                                                </div>#}
+{#                                                <div class="project-card-detail">#}
+{#                                                    <p class="bold"><i class="zmdi zmdi-format-subject zmdi-hc-2x"></i> {{ ad.title }} </p>#}
+{#                                                    <p>{{ ad.summary|truncatechars:100 }}</p>#}
+{#                                                </div>#}
+{#                                            </a>#}
+{##}
+{#                                        </div>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{##}
+{##}
+{#                        {% endif %}#}
+{#                      {% endfor %}#}
+{#                </div>#}
+
+
+
+      </div>
+{#                <div class="show-more center-block center-align hide-on-med-and-down" style="padding-bottom: 30px">#}
+{#                    <a class="btn btn-floating blue lighten-5 expand-btn" href="#projects"><i class="zmdi zmdi-caret-down" id="expand-btn"></i></a>#}
+{#                </div>#}
+
+  </div>
+
+
+  <div class="parallax-container valign-wrapper img-overlay">
+      <div class="container">
+          <br>
+          <br>
+            <div class="row center">
+                  <div class="col s6 m3">
+                      <div class="counter-title">اعضای باشگاه سرمایه گذاران</div>
+                      <div class="counter">9</div>
+                  </div>
+                  <div class="col s6 m3">
+                      <div class="counter-title">طرح های فعال</div>
+                      <div class="counter">{{ ads_list|length }}</div>
+                  </div>
+                  <div class="col s6 m3">
+                      <div class="counter-title">در حال پذیرش سرمایه</div>
+                      <div class="counter">{{ inProgress}}</div>
+                  </div>
+                  <div class="col s6 m3">
+                      <div class="counter-title">جذب شده</div>
+                      <div class="counter">{{ isPresented }}</div>
+                  </div>
+            </div>
+          <br>
+          <br>
+      </div>
+    <div class="parallax"><img src="{% static 'mainapp/img/Platinum-Investment-Managers.jpg' %}" alt="Unsplashed background img 2"></div>
+  </div>
+
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 center" style="position: relative; height: 300px">
+          <h5>اعضای باشگاه سرمایه گذاران</h5>
+            <div class="carousel">
+
+                <a class="carousel-item tooltipped" data-position="top" data-delay="10" data-tooltip=" شرکت فلان"><img src="{% static 'mainapp/img/logo.png' %}"></a>
+
+
+            </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="parallax-container valign-wrapper img-overlay-parallex">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <div class="row center">
+            <br>
+            <br>
+            <h5 class="header col s12 light" style="line-height: 40px; margin-bottom: 30px">اگر در طراحی کسب و کار خود محدودیت سرمایه نداشتید چه می کردید ؟
+این فرض را با ثبت طرح در حامی طرح به واقعیت تبدیل کنید!</h5>
+            <div class="center" style="">
+                <a href="{% url 'my:create_ad' %}" class="btn btn-default waves-effect green btn-large">همین الان طرحت رو ثبت کن!</a>
+            </div>
+            <br>
+            <br>
+        </div>
+      </div>
+    </div>
+    <div class="parallax"><img src="{% static 'mainapp/img/1111.jpg' %}" alt="Unsplashed background img 3"></div>
+  </div>
+
+  <footer class="page-footer blue lighten-5">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">درباره حامی طرح</h5>
+          <p class="grey-text text-lighten-4" style="text-align: justify">
+وبسایت حامی طرح با هدف تسهیل روند جذب سرمایه برای انواع کسب و کارها، استارت آپ ها، طرح ها و پروژه ها در مقیاس خرد و کلان طراحی شده است. تمامی حقوق و امتیازات این سایت ثبت شده و نزد تیم حامی طرح محفوظ است.
+          </p>
+
+
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text center-align">صفحات</h5>
+          <ul class="footer-links">
+            <li><a class="white-text" href="/blog">بلاگ</a></li>
+            <li><a class="white-text" href="/rules">قوانین</a></li>
+            <li><a class="white-text" href="/contact">تماس با ما</a></li>
+            <li><a class="white-text" href="/about">درباره ما</a></li>
+          </ul>
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text center-align">دسترسی ها</h5>
+          <ul class="footer-links">
+            <li><a class="white-text" href="{% url 'ads:show_all_ads' %}">همه طرح ها</a></li>
+            <li><a class="white-text" href="{% url 'my:create_ad' %}">ثبت طرح</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container" style="font-size: 10px">           تمام حقوق این سایت متعلق به نخستین سامانه آنلاین جذب سرمایه    <a class="brown-text text-lighten-4" href="http://hamitarh.ir">(حامی طرح)</a> می باشد.
+
+      </div>
+    </div>
+  </footer>
+
+
+  <!--  Scripts-->
+  <script src="{% static 'mainapp/js/jquery.min.js' %}"></script>
+
+
+
+  <script src="{% static 'mainapp/js/materializep.min.js' %}"></script>
+{#  <script src="{% static 'mainapp/js/jquery-ui.min.js' %}"></script>#}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="{% static 'mainapp/js/jquery.counterup.min.js' %}"></script>
+    <script src="{% static 'mainapp/js/init.min.js' %}"></script>
+    <script>
+
+    </script>
+  </body>
+</html>
+

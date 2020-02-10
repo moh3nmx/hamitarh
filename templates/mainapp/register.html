@@ -1,0 +1,129 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% block large_header %}
+        {% include "mainapp/main_header.html" %}
+    {% endblock %}
+<script>
+
+</script>
+    <style>
+        input#tel::-webkit-outer-spin-button,
+        input#tel::-webkit-inner-spin-button {
+            display: none;
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+        }
+    </style>
+<main class="front container center row">
+
+
+    <div class="col s50 offset-s5 l40 offset-l10 nopaded" >
+        <div class="card" style="border-radius: 8px">
+            <div class="container">
+                <div class="row">
+
+                    <div class="panel panel-default col-md-8 col-md-offset-2">
+                        <br>
+                        <div class="white"><h1 style="padding: 10px" class="center-align"> ثبت نام در حامی طرح </h1></div>
+                        <h4 class="" id="error">&nbsp;</h4>
+                        <h4 id="name-validation"></h4>
+                        <h4 id="email-validation"></h4>
+                        <h4 id="password-validation"></h4>
+                        <h4 id="phone-validation"></h4>
+                        <div class="panel-body col-md-12">
+                            <form id="login_form_membership" class="form-horizontal right-align" role="form" method="POST" action="">
+                                {% csrf_token %}
+                                <input name="next" type="hidden" value="" />
+                                <div class="form-group">
+
+
+                                    <div class="input-field" id="name">
+
+                                        <input id="name" type="text" class="validate" name="name" value="">
+                                        <label for="name" class="register-label"><span class="red-text">*</span> نام و نام خانوادگی</label>
+
+                                    </div>
+
+
+
+                                </div>
+                                <br>
+                                <div class="form-group">
+
+
+                                    <div class="input-field" id="email">
+                                        <input id="email" type="email" class="validate" name="email" value="">
+                                        <label for="email" >ایمیل</label>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+
+
+                                    <div class="input-field" id="tel">
+                                        <input id="tel" type="number" class="validate" name="phone" value="" pattern="\d{11}">
+                                        <label for="tel"><span class="red-text">*</span> شماره همراه</label>
+
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+
+
+                                    <div class="input-field" id="password">
+
+                                        <input id="password" type="password" class="validate" name="password1" value="">
+                                        <label for="password"><span class="red-text">*</span> رمز عبور</label>
+                                    </div>
+                                </div>
+                                <br>
+                                 <div class="form-group">
+                                    <div class="input-field" id="password2">
+
+                                        <input id="password2" type="password" class="validate" name="password1" value="">
+                                        <label for="password2"><span class="red-text">*</span> تکرار رمز عبور</label>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="hide form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" name="remember"> مرا به خاطر بسپار
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <div class="form-group">
+                                    <div class="col-md-12 center-align">
+                                        <button type="button" class="btn btn-primary" onclick="checkRegisterForm()">
+                                            <i class=""></i> ثبت نام
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+
+
+
+
+</main>
+    {% block footer_search %}
+        {% include "mainapp/footer.html" %}
+    {% endblock %}
+{% endblock %}
+

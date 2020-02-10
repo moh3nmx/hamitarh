@@ -1,0 +1,238 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% load jalali_tags %}
+{% block content %}
+    {% block large_header %}
+        {% include 'mainapp/main_header.html' %}
+    {% endblock %}
+    <script>
+
+
+    function checkform() {
+
+
+
+        if ( $("[name=title]").val()== "" ){
+            $("#ad-title").addClass('red lighten-4 ')
+        }if ( $("[name=title]").val()!= "" ){
+            $("#ad-title").addClass('green lighten-4 ')
+        }
+
+        if ($("[name=fund]").val()== "") {
+            $("#fund").addClass('red lighten-4 ')
+        }if ($("[name=fund]").val()!= "") {
+            $("#fund").addClass('green lighten-4 ')
+        }
+
+        if ($("[title=cat]").val()== "") {
+            $("#cat-box").addClass('red lighten-4 ')
+        }if ($("[title=cat]").val()!= "") {
+            $("#cat-box").addClass('green lighten-4 ')
+        }
+
+        if ($("[name=location]").val()== "") {
+            $("#loc-box").addClass('red lighten-4 ')
+        }if ($("[name=location]").val()!= "") {
+            $("#loc-box").addClass('green lighten-4 ')
+        }
+
+        if ($("[name=summary]").val()== "") {
+            $("#sum-box").addClass('red lighten-4 ')
+        }if ($("[name=summary]").val()!= "") {
+            $("#sum-box").addClass('green lighten-4 ')
+        }
+
+        if ($("[name=owner]").val()== "") {
+            $("#person").addClass('red lighten-4 ')
+        }if ($("[name=owner]").val()!= "") {
+            $("#person").addClass('green lighten-4 ')
+        }
+
+        if ($("[name=mobile]").val()== "") {
+            $("#telno").addClass('red lighten-4 ')
+        }
+        if ($("[name=mobile]").val()!= "") {
+            $("#telno").addClass('green lighten-4 ')
+        }
+        if ($("[name=is_Free]").val()== "") {
+            $("#tarefe").addClass('red lighten-4 ')
+        }
+        if ($("[name=is_Free]").val()!= "") {
+            $("#tarefe").addClass('green lighten-4 ')
+        }
+        if ($("[name=title]").val()== "" || $("[name=fund]").val()== "" || $("[name=summary]").val()== "" || $("[name=mobile]").val()== "" || $("[name=owner]").val()== "" || $("[name=location]").val()== "" || $("[name=is_Free]").val()== ""){
+            alert('تمامی فیلد های این بخش باید پر شوند.')
+        }
+        if ($("[name=title]").val()!= "" && $("[name=fund]").val()!= "" && $("[name=summary]").val()!= "" && $("[name=mobile]").val()!= "" && $("[name=owner]").val()!= "" && $("[name=location]").val()!= "" && $("[name=is_Free]").val()!= ""){
+            createAdForm();
+
+        }
+
+    }
+
+    $(document).ready(function() {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+            event.preventDefault();
+
+            }
+        });
+    });
+
+    </script>
+    <style>
+
+        .btn-success{
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+    </style>
+<main class="front container center row" xmlns:12="http://www.w3.org/1999/html">
+    <form enctype="multipart/form-data" id="create-ad" class="form-horizontal" role="form" method="POST" action="" novalidate>
+    {% csrf_token %}
+
+        <div class="row black-text" id="tabs" >
+
+
+            <div class="container" id="tabs-1">
+                <div class="col s60 nopaded">
+                    <div class="col s60 l30 offset-l15" id="column1">
+                        {% if ad_exist %}
+                            <h2 class="red-text text-darken-3">طرح {{ ad_exist }} قبلا توسط شما به ثبت رسیده است!</h2>
+                        {% endif %}
+                            <br>
+                        <div class="item col s60 nopaded">
+                            <div class="col s60 righ-align">
+                                <div class="card-panel input-field">
+                                در این بخش اطلاعات پایه ای طرح خود را وارد نمایید. اطلاعات جامع تر طی مراحل بعدی از شما اخذ خواهد شد.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item col s60 nopaded">
+                            <div class="col s60 right-align">
+                                <div id="ad-title" class="card-panel input-field">
+                                    <input name="title" class="validate" placeholder="عنوان طرح " value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s60 l30">
+                    <div class="item col s60 nopaded">
+                        <div class="col s60 right-align" >
+                            <div class="card-panel input-field" id="fund">
+                                <span class="detail">
+                                    <i class="zmdi zmdi-money-box prefix tooltipped" data-position="left" data-delay="50" data-tooltip="به تومان"></i>
+                                    <input type="text" name="fund" class="commify" value="" id="amount_number" placeholder=" مبلغ مورد نیاز  (تومان)">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="item col s60 nopaded">
+                        <div class="col s60 right-align">
+                            <div class="card-panel input-field" id="cat-box">
+                                <span class="detail"><i class="zmdi zmdi-menu prefix" style="right: 20px"></i>
+                                    <select  form="create-ad" class="select2 category form-control " name="category" title="cat">
+                                        <option value="" selected >دسته بندی طرح </option>
+                                        {% for cat in cat_list %}
+                                        <option value="{{ cat.url }}" >{{ cat.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item col s60 nopaded">
+                        <div class="col s60 right-align">
+                            <div id="loc-box" class="card-panel input-field">
+                                <span class="detail"><i class="zmdi zmdi-pin prefix" style="right: 20px"></i>
+
+                                    <select class="select2 city-position form-control" name="location" title="loc">
+                                            <option value=""  selected>موقعیت طرح </option>
+                                        {% for state in states_list %}
+                                            <option value="{{ state.title }}" > {{ state.title }} </option>
+                                        {% endfor %}
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item col s60 nopaded">
+                        <div class="col s60 right-align">
+                            <div id="sum-box" class="card-panel input-field">
+                                <textarea id="textarea1" name="summary" class="materialize-textarea" placeholder="شرح مختصر پروژه در حد 2 الی 3 سطر " style="min-height: 150px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col s60 l30">
+                    <div class="item col s60 nopaded">
+                        <div class="col s60 center-align">
+                            <div id="person" class="card-panel input-field">
+                                <br>
+                                <div class="switch center-block">
+                                    <label>
+                                        حقوقی
+                                        <input name="isLegal" type="checkbox" value="">
+                                        <span class="lever"></span>
+                                        حقیقی
+                                    </label>
+                                </div>
+                                <input name="owner" placeholder="نام مالک طرح" value="">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="item col s60 nopaded">
+                        <div class="col s60 right-align">
+                            <div id="telno" class="card-panel input-field">
+                                <input name="phone" value="{{ user.phone }}" placeholder="شماره تلفن">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="item col s60 nopaded">
+                        <div class="col s60 right-align">
+                            <div id="telno" class="card-panel input-field" style="padding: 37px">
+                                <input name="showInSite" type="checkbox" class="" id="filled-in-box" value=""/>
+                                <label for="filled-in-box">طرح برای نمایش عموم در سایت قرار گیرد.</label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-action center-align">
+                    <div class="row form-group ">
+                        <div class="col s30 offset-s15">
+                            <br>
+                            <button type="button" onclick="checkform()" class="btn btn-success btn-xlarge green darken-3 white-text">
+                                <i class="zmdi zmdi-check"></i> انجام شد
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+</main>
+
+
+
+
+    {% block footer %}
+        {% include 'mainapp/footer.html' %}
+    {% endblock %}
+{% endblock %}

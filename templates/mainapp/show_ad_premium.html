@@ -1,0 +1,131 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% load to-slash %}
+{% load jalali_tags %}
+{% block content %}
+    {% block large_header %}
+        {% include 'mainapp/main_header.html' %}
+    {% endblock %}
+<main class="front container center row" style="margin-top: -30px">
+
+    <div class="row black-text">
+        <div class="container col l60 s60">
+            <div class="col s60 l60">
+
+                <div class="circle profile-pic z-depth-1 white center center center-block" style="width: 150px; height: 150px;">
+                    <img class="activator2 circle center" src="{% static 'mainapp/img/grey.png' %}">
+                </div>
+
+                <div class="card-panel input-field">
+                    <br>
+                    <br><br>
+                    <span class="detail">
+                        <h1 class=" center-align"> {{ ad.title }} </h1>
+                    </span>
+                    <br><br>
+                    <div class="row">
+                        <div class="col l10 s20" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-account zmdi-hc-2x"></i>
+                                <h3 type="text" class="commify center-align">{{ ad.owner }}</h3>
+                            </span>
+                        </div>
+
+                        <div class="col l10 s20" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-money-box zmdi-hc-2x"></i>
+                                <h3 type="text" class="commify center-align"><span class="fund">{{ ad.fund }}</span>   تومان </h3>
+                            </span>
+                        </div>
+                        <div class="col l10 s20" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-time zmdi-hc-2x"></i>
+                                {% if ad.lastModified %}
+                                    <h3 type="text" class="commify center-align">{{ ad.dateCreated | to_jalali:'%y/%m/%d' }}</h3>
+                                {% else %}
+                                    <h3 type="text" class="commify center-align">نامشخص</h3>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="col l10 s20" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-check-circle zmdi-hc-2x"></i>
+                                {% if ad.expected_gain and ad.expected_time %}
+                                <h3 type="text" class="commify center-align"> %{{ ad.expected_gain }} سود در {{ ad.expected_time }} ماه </h3>
+                                {% else %}
+                                <h3 type="text" class="commify center-align"> نامشخص </h3>
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="col l10 s20" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-phone-ring zmdi-hc-2x"></i>
+                                <h3 type="text" class="commify center-align">{{ ad.phone }}</h3>
+                            </span>
+                        </div>
+
+                        <div class="col l10 s20" style="min-height: 100px">
+                            <span class="detail">
+                                <i class="zmdi zmdi-pin zmdi-hc-2x"></i>
+                                <h3 type="text" class="commify center-align">{{ ad.location }}</h3>
+                            </span>
+                        </div>
+                    </div>
+
+
+
+
+                    <br>
+                    <br>
+
+                    <span class="detail">
+                        <i class="zmdi zmdi-more-horiz zmdi-hc-2x"></i>
+                        <div class="row">
+                            <div class="col l50 offset-l5">
+                                <p type="text" class="commify center-align" style="text-align: justify">
+                                    {{ ad.summary }}
+                                </p>
+
+                            </div>
+
+                        </div>
+                        </span>
+                    <br>
+                </div>
+            {% if ad.images  %}
+                <div class="card-panel input-field">
+                    <div class="row">
+                        <div class="col l60 s60">
+                            <div class="row">
+                                <h2 class="">تصاویر طرح</h2>
+                                <div class="center-block">
+                                    <br>
+                                    <img class="materialboxed center-block" src="{{ ad.images.url }}" height="200px">
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {# more detail include #}
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+
+
+    {% block footer %}
+{% include 'mainapp/footer.html' %}
+{% endblock %}
+
+{% endblock %}

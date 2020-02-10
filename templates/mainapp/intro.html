@@ -1,0 +1,59 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% block content %}
+    {% block large_header %}
+        {% include 'mainapp/main_header.html' %}
+    {% endblock %}
+<style>
+p{
+    font-size: 18px;
+}
+</style>
+<main class="front container">
+        <div class="row">
+
+                <div class="col s60">
+                    <div class="card">
+                        <div class="card-title activator center-align">
+                            <br>
+                            <h1 class="activator center-align">خوش آمدید!</h1>
+
+                        </div>
+                    <div class="card-content container">
+                        <p>
+                            وبسایت حامی طرح یک سامانه تسهیل گر جذب سرمایه می باشد که به شما کمک می کند تا سرمایه مورد خود را جذب کرده و کسب و کار خود را گسترش دهید. در شکل زیر می توانید نمای کلی از فرایند جذب سرمایه را مشاهده کنید. در صورت وجود هر گونه ابهام می توانید با ما تماس بگیرید ما همواره پاسخگوی شما هستیم.
+                        </p>
+                    </div>
+                    <div class="center">
+                        <img class="center" src="{% static 'mainapp/img/timeline-psd.jpg' %}" width="60%">
+                    </div>
+
+                        <p class="center">اگر طرحی در ذهن دارید همین الان شروع کنید!</p>
+                        <br>
+                        <div class="center-block center">
+                            <a class="btn btn-large center-block center center-align" href="" style="border-radius: 10px">ثبت طرح</a>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+
+
+        </div>
+    </main>
+
+
+
+
+
+    {% block google %}
+        {% include 'mainapp/google_script_block.html' %}
+    {% endblock %}
+
+
+
+{% block footer %}
+    {% include 'mainapp/footer.html' %}
+{% endblock %}
+
+{% endblock %}

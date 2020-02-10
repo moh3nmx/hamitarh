@@ -1,0 +1,58 @@
+<footer class="page-footer bluebox blue white-text bottom">
+    <div class="container footcontainer">
+        <div class="row">
+            <div class="col s45 l20">
+                <h2 class="white-text">بخش های حامی طرح</h2>
+                <ul>
+
+
+                    <li><a class="blue-grey-text text-lighten-4" href="/">صفحه نخست</a></li>
+                    <li><a class="blue-grey-text text-lighten-4" href="/rules">قوانین سایت</a></li>
+                    <li><a class="blue-grey-text text-lighten-4" href="#">مشاوره (بزودی)</a></li>
+                    <li><a class="blue-grey-text text-lighten-4" href="/pricing">تعرفه ثبت طرح</a></li>
+                    <li><a class="blue-grey-text text-lighten-4" href="/about">درباره ما</a></li>
+                    <li><a class="blue-grey-text text-lighten-4" href="/contact">تماس با ما</a></li>
+
+                </ul>
+            </div>
+            <div class="col l10 s15 center-align center" id="namad-place" >
+                <div class="center middle">
+                </div>
+            </div>
+            <div class="col l30 s60 left">
+                <div>
+                    <h2 class="white-text">خبرنامه</h2>
+                <p>
+                    برای عضویت در خبرنامه حامی طرح ایمیل خود را وارد کنید.
+                </p>
+                <form method="POST" action="{% url 'authentication:sub' %}">
+                    {% csrf_token %}
+                    <input id="email" name="email" type="email" class="validate col s30" required="" placeholder="ایمیل شما">
+                    <button type="submit" name="subscribe" class="waves-effect waves-light btn white blue-text col s20 offset-s2">عضویت در خبرنامه</button>
+                </form>
+                </div>
+
+
+            </div>
+            <br>
+            <div class="col l30 s60 left">
+                <br>
+            <h2 class="white-text">حامی طرح در شبکه های اجتماعی</h2>
+                <div class="social-links center-align center-block">
+                    <a target="_blank" class="btn btn-floating white waves-effect"><i class="zmdi zmdi-linkedin blue-text"></i> </a>
+                    <a target="_blank" class="btn btn-floating white waves-effect"><i class="zmdi zmdi-youtube blue-text"></i> </a>
+                    <a target="_blank" class="btn btn-floating white waves-effect"><i class="zmdi zmdi-facebook blue-text"></i> </a>
+                    <a target="_blank" class="btn btn-floating white waves-effect" href="https://www.instagram.com/sarmayedarico/"><i class="zmdi zmdi-instagram blue-text"></i> </a>
+                    <a target="_blank" class="btn btn-floating white waves-effect" href=""><i class="fa fa-telegram blue-text"></i> </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            تمام حقوق این سایت متعلق به نخستین سامانه آنلاین جذب سرمایه (حامی طرح) می باشد.
+
+        </div>
+    </div>
+</footer>

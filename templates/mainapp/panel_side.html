@@ -1,0 +1,34 @@
+{% load static %}
+<div class="col s60 m60 l12" id="side-nav-collapse">
+                <div class="row">
+                    <ul id="side-nav-collapse" class=" col s40 m25 l12 side-nav fixed right-aligned" >
+                        <li><div class="userView">
+{#                                {{--<img class="background" src="https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/J9H9WF0/blue-turquoise-gradient-polygon-shaped-background-zoomed-in-and-zoomed-out-in-one-motion_nj5dnqsrl__M0000.jpg">--}}#}
+
+                                <a href="" class="profile-pic2" style="padding-right: 0;"><img class="circle2 center-block" src="{% static 'mainapp/img/logo.png' %}"></a>
+                                <a href="" style="padding-right: 0;"><span class="name center-align"><h2>{{ user.name }}</h2>
+
+                                </span></a>
+                                {% if user.isInvestor %}
+                                <a href="" style="padding-right: 0;"><span class="email center-align"><h3>حساب سرمایه گذار</h3>
+                                {% else %}
+                                <a href="" style="padding-right: 0;"><span class="email center-align"><h3>حساب سرمایه پذیر</h3>
+                                {% endif %}
+
+                    </span></a>
+                            </div></li>
+                    {% if user.isInvestor %}
+                                <li><a class="waves-effect" href="{% url 'my:all_ads' %}"><i class="zmdi zmdi-view-dashboard zmdi-hc-2x"></i>طرح های برگزیده</a></li>
+                    {% else %}
+                                <li><a class="waves-effect" href="{% url 'my:panel' %}"><i class="zmdi zmdi-view-dashboard zmdi-hc-2x"></i>داشبورد</a></li>
+                                <li><a class="waves-effect" href="{% url 'my:create_ad' %}"><i class="zmdi zmdi-notifications-add zmdi-hc-2x"></i>ثبت طرح جدید</a></li>
+
+                    {% endif %}
+{#                                <li><a class="waves-effect" href="{% url 'my:all_ads' %}"><i class="zmdi zmdi-view-list zmdi-hc-2x"></i>طرح های من</a></li>#}
+                                <li><a class="waves-effect" href="{% url 'my:pass' %}"><i class="zmdi zmdi-lock-open zmdi-hc-2x"></i>تغییر رمز عبور</a></li>
+                            <li><a class="waves-effect" href="{% url 'authentication:logout' %}"><i class="zmdi zmdi-power-off zmdi-hc-2x"></i>خروج از حساب کاربری</a></li>
+
+                    </ul>
+
+                </div>
+    </div>

@@ -1,0 +1,160 @@
+{% extends 'mainapp/panel_base.html' %}
+{% load static %}
+
+{% block contents %}
+
+
+<div id="myModal" class="modal z-depth-1 card panel-modal">
+
+  <!-- Modal content -->
+  <div class="modal-content card-content">
+    <div class="modal-header card-header">
+
+      <h2 class="black-text">آیا از حذف این مورد اطمینان دارید؟</h2>
+    </div>
+    <div class="align-left card-footer">
+        <a href="" class="btn btn-default red" id="modal-delete">حذف</a>
+        <a class="btn btn-default grey lighten-2 black-text" id="close">انصراف</a>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- Here is the place to put blocks -->
+
+    {% block panel_header %}
+        {% include 'mainapp/panel_fixed_header.html' %}
+    {% endblock %}
+
+
+
+        <div class="row" id="panel-content">
+            {% block panel_side %}
+                {% include 'mainapp/club_side.html' %}
+            {% endblock %}
+
+            <div class="col s60 m60 l48">
+                <div class="row" id="user-panel">
+                    <div class="col s60 l60 m60 admin-panel-main">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-header">طرح های من</div>
+                                <table class="center-align">
+                                        <tr class="center-align">
+                                            <th>عنوان</th>
+                                            <th class="hide-on-med-and-down">وضعیت </th>
+{#                                            <th>تعداد نظرات</th>#}
+
+                                            <th class="hide-on-med-and-down"> بازدید</th>
+                                            <th>سرمایه گذاری</th>
+
+{#                                            <th class="hide-on-med-and-down">تاریخ ثبت</th>#}
+                                            <th>دسترسی ها</th>
+
+                                        </tr>
+                                    {% for ad in ads_list %}
+                                        <tr>
+                                        {% load to-slash %}
+                                            <td>{{ ad.title }}</td>
+
+                                            {% if ad.showInSite %}
+                                                {% if not ad.fundingStep %}
+                                                <td class="green-text text-darken-1 hide-on-med-and-down">نمایش در سایت</td>
+                                                {% else %}
+                                                <td class="green-text text-darken-1 hide-on-med-and-down">{{ ad.get_fundingStep_display }}</td>
+                                                {% endif %}
+                                            {% else %}
+                                                <td class="grey-text text-darken-2 hide-on-med-and-down">در انتظار بررسی اولیه</td>
+                                            {% endif %}
+{#                                            <td class="grey-text"> به زودی </td>#}
+
+                                            <td class="hide-on-med-and-down"> {{ ad.visitCount }} </td>
+                                            <td>
+                                                <a class="btn green darken-1 btn-small" href="{% url 'my:investment' ad.id %}">جذب سرمایه</a>
+                                            </td>
+{#                                            <td class="hide-on-med-and-down">{{ ad.dateCreated | to_slash }}</td>#}
+                                            <td><a href="{% url 'ads:show_ad' ad.id%}" class="btn btn-small">مشاهده</a>
+                                                <a href="{% url 'my:edit_ad' ad.id %}" class="btn btn-small grey hide-on-med-and-down">ویرایش</a>
+                                                <a class="btn red btn-small delete-btn" name="{% url 'my:delete_ad' ad.id %}" id="myBtn">حذف</a>
+                                            </td>
+
+                                        </tr>
+                                    {% endfor %}
+                                    </table>
+                                <br>
+                                <div class="center">
+                                    <a class="btn btn-default waves-effect waves-light" href="{% url 'my:create_ad' %}">ثبت طرح جدید</a>
+                                    <a class="btn btn-success waves-effect waves-light" href="{% url 'my:all_ads' %}">مشاهده طرح ها</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+<script>
+    $('.delete-btn').click(function () {
+    console.log(this.getAttribute('name'));
+    $('a#modal-delete').attr('href' ,  this.getAttribute('name') );
+    });
+
+$('th').addClass('center-align');
+$('td').addClass('center-align');
+var modal = document.getElementById('myModal');
+var modal2 = document.getElementById('myModal2');
+
+
+// Get the button that opens the modal
+var btn = $('.delete-btn');
+var btn2 = $('.invest-btn');
+
+// Get the <span> element that closes the modal
+var span = document.getElementById("close");
+var span2 = document.getElementById("close2");
+
+// When the user clicks the button, open the modal
+btn.click(function() {
+    $('#myModal').show();
+}
+    );
+btn2.click(function() {
+    $('#myModal2').show();
+}
+    );
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+};
+span2.onclick = function() {
+    modal2.hide('fade');
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+
+}
+window.onclick = function(event) {
+    if (event.target == modal2) {
+        modal2.style.display = "none";
+    }
+
+}
+</script>
+
+
+{% endblock %}

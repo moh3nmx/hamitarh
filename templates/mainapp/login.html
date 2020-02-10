@@ -1,0 +1,91 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% block large_header %}
+        {% include "mainapp/main_header.html" %}
+    {% endblock %}
+    <script>
+$("body.header-fixed").addClass('grey lighten-4');
+
+</script>
+<main class="front container center">
+{#<div class="col l20 m45 s60 center-block">#}
+{#    <ul id="tabs-swipe-demo" class="tabs">#}
+{##}
+{#        <li class="tab "><a href="#test-swipe-1">ورود به پنل باشگاه سرمایه گذاران</a></li>#}
+{#        <li class="tab "><a class="active" href="#test-swipe-2">ورود به پنل کاربران طرح کننده</a></li>#}
+{##}
+{#    </ul>#}
+{#</div>#}
+
+<div id="test-swipe-1" class="row">
+    <div class="card col m30 offset-m15 s50 offset-s5" style="border-radius: 8px">
+        <div class="container">
+            <div class="row right-align">
+
+                <div class="panel panel-default col s50 offset-s5 m50 offset-m5 l50 offset-l5">
+                    <br>
+                    <div class="white"><h1 style="padding: 10px" class="center-align"> ورود به حامی طرح </h1></div>
+                    {% if incorrect %}
+                        <br>
+                        <h3 class="center red-text text-darken-3">شماره همراه یا رمز عبور نادرست است !</h3>
+                        <br>
+                    {% endif %}
+                    {% if locked %}
+                        <br>
+                        <h3 class="center red-text text-darken-3">بدلیل تلاش های ناموفق زیاد، حساب شما مسدود شد !</h3>
+                        <br>
+                    {% endif %}
+                    <div class="panel-body col-md-12">
+                        <form id="login_form_membership" class="form-horizontal" role="form" method="POST" action="">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="" />
+
+                        <div class="form-group">
+
+
+                            <div class="input-field right-align">
+                                <input id="phone" type="text" class="validate" name="phone" value="" >
+                                <label for="phone">شماره تلفن</label>
+
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="form-group">
+
+
+                            <div class="input-field">
+                                <input id="password" type="password" class="validate" name="password" value="" />
+                                <label for="password">رمز عبور</label>
+                            </div>
+                        </div>
+
+                        <br>
+
+
+                        <br>
+                        <div class="">
+                            <div class="col-md-12 center-align">
+                                <button type="submit" class="btn btn-primary">
+                                     ورود
+                                </button>
+
+                                <a class="btn btn-link" href="#">بازیابی کلمه عبور</a>
+                                <a class="btn btn-link" href="{% url 'authentication:register' %}">عضویت رایگان</a>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <br>
+    </div>
+</div>
+
+</main>
+{% endblock %}
+

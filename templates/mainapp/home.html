@@ -1,0 +1,316 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+{% load jalali_tags %}
+
+{% block content %}
+    {% block large_header %}
+        {% include 'mainapp/main_header.html' %}
+    {% endblock %}
+{##}
+
+
+
+    <div class="main-cat-menu ">
+        <ul class="collapsible white" data-collapsible="accordion" >
+            <li>
+                <div class="collapsible-header"> دسته بندی ها <i class="zmdi zmdi-caret-down"></i> </div>
+                <div class="collapsible-body center-align">
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'ads:show_all_ads' %}" style="width: 100%"> همه طرح ها </a>
+                    </div>
+                    {% for cat in cats_list %}
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'ads:show_cat' cat.url%}" style="width: 100%"> {{ cat.title }} </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <main class="front container center">
+
+{#        <div class="dropdown-box section-title">#}
+{#        <a class='dropdown-button' href='#' data-activates='dropdown1' ><h2 id="dpbtn" class=" btn btn-xlarge white blue-text text-lighten-1" style="min-width: 220px"> دسته بندی ها <i class="zmdi zmdi-caret-down"></i></h2> </a>#}
+{#   <!-- Dropdown Structure -->#}
+{#        <ul id='dropdown1' class='dropdown-content'>#}
+{#        <li><a class="dropdown-list" href="{% url 'ads:show_all_ads' %}">همه طرح ها</a></li>#}
+{#        {% for cat in cats_list %}#}
+{#            <li class="divider"></li>#}
+{#            <li><a class="dropdown-list" href="{% url 'ads:show_cat' cat.url%}">{{ cat.title }}</a></li>#}
+{#        {% endfor %}#}
+{##}
+{#        </ul>#}
+{#        </div>#}
+
+
+
+<div id="slide-show" class="row slidered" style="display: block;" >
+
+
+
+{% for ad in ads_list %}
+    {% if ad.showInSite %}
+    <div class="col s60 m30 l15 ad-card">
+        <div class="card ad">
+            <div class="card-header activator blue lighten-1 white-text">
+                <div class="topbar">
+                <span class="category activator">
+                    {{ ad.category.title }}
+                </span><i class="zmdi zmdi-menu left"></i>
+                </div>
+                <div class="card-title center-align">
+                    <a href="{% url 'ads:show_ad' ad.id%}"><h2 class="card-title" style="font-size: 18px">{{ ad.title }}</h2></a>
+                </div>
+            </div>
+            <div class="card-pictures activator">
+                <div class="label col activator s13">
+                </div>
+                <div class="label col activator s34">
+                    <div class="circle white">
+                        {% if ad.images %}
+                            <img class="activator" src="{{ ad.images.url }}">
+                        {% else %}
+                            <img class="activator" src="{% static 'mainapp/img/grey.png'%}" style="left: 0;!important;">
+
+{#                            <img class=" activator" src="{% static 'mainapp/img/'%}">#}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="halfback blue lighten-1">&nbsp;</div>
+            </div>
+            <div class="card-content">
+
+{#                <i class="verified-logo zmdi zmdi-badge-check yellow-text text-darken-2 tooltipped" data-position="right" data-tooltip="تایید شده توسط حامی طرح"></i>#}
+                {% if ad.isReviewOK %}
+                <img class="verified-logo tooltipped" data-position="right" data-tooltip="تایید شده توسط حامی طرح" src="{% static 'mainapp/img/logo-trans.png' %}" width="40px">
+                {% endif %}
+
+
+
+                <span class="detail"><i class="zmdi zmdi-money-box"></i>   سرمایه مورد نیاز:   <span class="fund">{{ ad.fund }}</span>   تومان</span>
+
+                <!--<span class="detail"><i class="zmdi zmdi-money"></i> سرمایه مورد نیاز: {{ ad.ideaadvertisement.capitalNeed }} تومان</span>-->
+
+                <span class="detail"> <i class="zmdi zmdi-my-location"></i>  موقعیت:
+
+                {{ ad.location }}<br>
+                        </span>
+                {% load to-slash %}
+                <span class="detail"><i class="zmdi zmdi-time"></i>  {{ ad.dateCreated|to_jalali:'%y/%m/%d' }}   </span>
+            </div>
+            <div class="card-reveal">
+                <span class="card-title category grey-text text-darken-4 ">{{ ad.title }}<i class="zmdi zmdi-menu left"></i></span>
+                    <br>
+                    <div class="center-align"><i class="zmdi zmdi-account zmdi-hc-2x"></i></div>
+                    <div class="center-align">{{ ad.owner }}</div>
+                    <br>
+                    <div class="center-align"><i class="zmdi zmdi-more-horiz zmdi-hc-2x"></i></div>
+                    <div class="center-align">{{ ad.summary|truncatechars:100 }}</div>
+
+                <br>
+                <p class="center-align">
+                    <a href="{% url 'ads:show_ad' ad.id%}" class="waves-effect waves-light btn">مشاهده طرح</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+
+
+</div>
+        <button type="button" class="btn-right btn btn-floating white btn-large" onclick='nextSlide()'><i class="zmdi zmdi-caret-right zmdi-hc-3x blue-text"></i> </button>
+        <button type="button" class="btn-left btn btn-floating white btn-large" onclick="prevSlide()"><i class="zmdi zmdi-caret-left blue-text zmdi-hc-3x"></i> </button>
+</main>
+<div class="blue invest-title-box" style="height: 55px;padding: 10px"><h2 class="white-text center-align" >اعضای باشگاه سرمایه گذاران</h2></div>
+<div class="invest-club center-align" style="border-top: 1px solid grey;border-bottom: 1px solid grey">
+
+
+    <span class="invest-holder">
+        <span class="logo-box">
+            <img class="investor-logo circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip=" شرکت هلدینگ بانک انصار" src="{% static 'mainapp/img/ansar.png' %}" />
+        </span>
+{#        <span class="logo-box">#}
+{#            <img class="investor-logo circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip=" مرکز تحقیقات مهندسی صنایع دانشگاه صنعتی امیرکبیر" src="{% static 'mainapp/img/amirkabir.png' %}" />#}
+{#        </span>#}
+        <span class="logo-box">
+            <img class="investor-logo middle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="شتابدهنده دیموند" src="{% static 'mainapp/img/dmond.png' %}" style="padding-top: 13px"/>
+        </span>
+        <br>
+        <span class="logo-box">
+            <img class="investor-logo-small circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="موسسه زروان مهر" src="{% static 'mainapp/img/logo.jpg' %}" />
+        </span>
+        <span class="logo-box">
+            <img class="investor-logo-small circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="مجتمع کشت و صنعت طیور پروران ارم" src="{% static 'mainapp/img/kesht.png' %}" />
+        </span>
+        <span class="logo-box">
+            <img class="investor-logo-small circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="شرکت بهزی پرور آذرین" src="{% static 'mainapp/img/behzi.PNG' %}" />
+        </span>
+        <span class="logo-box">
+            <img class="investor-logo-small circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="شرکت آرد گرمسار" src="{% static 'mainapp/img/ardgarmsar.png' %}" />
+        </span>
+        <span class="logo-box">
+            <img class="investor-logo-small circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="شرکت آرد سپید ارومیه" src="{% static 'mainapp/img/sepid.jpg' %}" />
+        </span>
+        <span class="logo-box">
+            <img class="investor-logo-small circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="سامانه الکترونیکی هوشمند راهبرد ایرانیان (ساهرا)" src="{% static 'mainapp/img/sahra.png' %}" />
+        </span>
+        <span class="logo-box">
+            <img class="investor-logo-small circle tooltipped help-tooltip" data-position="top" data-delay="10" data-tooltip="شرکت سازه بنیان انصار" src="{% static 'mainapp/img/sazeansar.png' %}" />
+        </span>
+
+
+    </span>
+
+</div>
+    <script>
+var x = $('.ad-card').length;
+console.log(x);
+var i = 0 ;
+$('.ad-card').hide();
+        function nextSlide() {
+            $('.ad-card').hide();
+
+
+            if (i >= x){
+                i=0;
+            }
+            if(i<x){
+                if(i==0){
+
+                    $('.ad-card').eq(i).show();
+                    $('.ad-card').eq(i+1).show();
+                    $('.ad-card').eq(i+2).show();
+                    $('.ad-card').eq(i+3).show();
+
+                }else{
+                    if (x-i<4){
+
+                            $('.ad-card').hide();
+
+                        for (z=0;z<(x%4);z++){
+
+                            $('.ad-card').eq(i+z).show();
+                            $('.ad-card').eq(i+z+1).show();
+                            $('.ad-card').eq(i+z+2).show();
+
+
+
+
+                        }
+                    }else{
+
+                        $('.ad-card').eq(i).show();
+                        $('.ad-card').eq(i+1).show();
+                        $('.ad-card').eq(i+2).show();
+                        $('.ad-card').eq(i+3).show();
+
+
+                    }
+
+                }
+
+
+            }
+
+
+
+
+
+
+            i = i+4;
+        }
+        function prevSlide() {
+
+
+
+            if (i <= 0){
+                i=0;
+            }else {
+                i = i-4;
+
+            }
+
+                if(i==0){
+                $('.ad-card').hide();
+                    switch (x%4) {
+                        case 0:
+                            $('.ad-card').eq(x-1).show();
+                            $('.ad-card').eq(x-2).show();
+                            $('.ad-card').eq(x-3).show();
+                            $('.ad-card').eq(x-4).show();
+                            break;
+                        case 1:
+                            $('.ad-card').eq(x-1).show();
+                            break;
+                        case 2:
+                            $('.ad-card').eq(x-1).show();
+                            $('.ad-card').eq(x-2).show();
+                            break;
+                        case 3:
+                            $('.ad-card').eq(x-1).show();
+                            $('.ad-card').eq(x-2).show();
+                            $('.ad-card').eq(x-3).show();
+                            break;
+
+
+                    }
+
+
+                        i = x+(4 - (x%4));
+
+
+
+
+
+
+                }else{
+                    $('.ad-card').hide();
+                    $('.ad-card').eq(i-1).show();
+                    $('.ad-card').eq(i-2).show();
+                    $('.ad-card').eq(i-3).show();
+                    $('.ad-card').eq(i-4).show();
+
+
+                }
+
+
+
+        }
+        function slideShow() {
+            nextSlide();
+            setTimeout(function () {
+                slideShow();
+            } , 15000)
+        }
+        window.load(slideShow());
+
+        function f() {
+  document.getElementsByClassName('dropdown')[0].classList.toggle('down');
+  document.getElementsByClassName('arrow')[0].classList.toggle('gone');
+  if (document.getElementsByClassName('dropdown')[0].classList.contains('down')) {
+    setTimeout(function() {
+      document.getElementsByClassName('dropdown')[0].style.overflow = 'visible'
+    }, 500)
+  } else {
+    document.getElementsByClassName('dropdown')[0].style.overflow = 'hidden'
+  }
+}
+    </script>
+
+
+
+
+
+{% block footer%}
+{% include 'mainapp/footer.html' %}
+{% endblock %}
+
+{% endblock %}
+
+

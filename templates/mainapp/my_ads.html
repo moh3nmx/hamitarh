@@ -1,0 +1,292 @@
+{% extends 'mainapp/panel_base.html' %}
+{% load static %}
+{% load jalali_tags %}
+
+{% block contents %}
+
+<div id="myModal" class="modal z-depth-1 card" style="z-index: 1000">
+
+  <!-- Modal content -->
+  <div class="modal-content card-content">
+    <div class="modal-header card-header">
+
+      <h2 class="black-text">آیا از حذف این مورد اطمینان دارید؟</h2>
+    </div>
+    <div class="align-left card-footer">
+        <a href="" class="btn btn-default red" id="modal-delete">حذف</a>
+        <a class="btn btn-default grey lighten-2 black-text" id="close">انصراف</a>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Here is the place to put blocks -->
+
+<header class="fixed" >
+
+
+    <div class="colapsible-menu" id="panel-menu-mobile">
+        <ul class="collapsible white" data-collapsible="accordion"  style="margin-top: 0">
+            <li>
+                <div class="collapsible-header"><i class="zmdi zmdi-menu"></i>منوی سایت</div>
+                <div class="collapsible-body">
+
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'my:panel' %}"><i class="zmdi zmdi-view-dashboard zmdi-hc-2x"></i>  پنل کاربری</a>
+                    </div>
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'my:create_ad' %}"><i class="zmdi zmdi-notifications-add zmdi-hc-2x"></i>  ثبت طرح جدید </a>
+                    </div>
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'my:all_ads' %} "><i class="zmdi zmdi-view-list zmdi-hc-2x"></i> طرح های من </a>                    </div>
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'authentication:logout' %}"><i class="zmdi zmdi-power-off zmdi-hc-2x"></i> خروج از حساب کاربری  </a>
+                    </div>
+
+
+                </div>
+            </li>
+
+        </ul>
+    </div>
+<nav class="fixed" style="position: fixed; top: 0; z-index: 1000;box-shadow: none">
+    <div class="nav-wrapper" style="position: fixed; top: 0">
+        <div class="left left-align" style="position: fixed; left: 0;">
+            <a href="{% url 'mainapp:index' %}" class="nav-link">حامی طرح</a>
+            <a href="{% url 'mainapp:index' %}"> <img class="logo nav-logo" src="{% static 'mainapp/img/logo.png' %}"></a>
+        </div>
+    </div>
+
+</nav>
+</header>
+
+
+
+<div class="row" id="panel-content">
+    <div class="col s60 m60 l12" id="side-nav-collapse">
+                <div class="row">
+                    <ul id="side-nav-collapse" class=" col s40 m25 l12 side-nav fixed right-aligned" >
+                        <li><div class="userView">
+{#                                {{--<img class="background" src="https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/J9H9WF0/blue-turquoise-gradient-polygon-shaped-background-zoomed-in-and-zoomed-out-in-one-motion_nj5dnqsrl__M0000.jpg">--}}#}
+
+                                <a href="" class="profile-pic2" style="padding-right: 0;"><img class="circle2 center-block" src="{% static 'mainapp/img/logo.png' %}"></a>
+                                <a href="" style="padding-right: 0;"><span class="name center-align"><h2>{{ user.name }}</h2>
+
+                                </span></a>
+                                {% if user.isInvestor %}
+                                <a href="" style="padding-right: 0;"><span class="email center-align"><h3>حساب سرمایه گذار</h3>
+                                {% else %}
+                                <a href="" style="padding-right: 0;"><span class="email center-align"><h3>حساب سرمایه پذیر</h3>
+                                {% endif %}
+
+                    </span></a>
+                            </div></li>
+
+{#                        @if(Auth::check())#}
+{#                            @if(Auth::user()->user_type->slug == 'admin')#}
+
+
+
+{#                            @elseif(Auth::user()->user_type->slug == 'ader')#}
+
+                    {% if user.isInvestor %}
+                                <li><a class="waves-effect" href="{% url 'my:all_ads' %}"><i class="zmdi zmdi-view-dashboard zmdi-hc-2x"></i>طرح های برگزیده</a></li>
+                    {% else %}
+                                <li><a class="waves-effect" href="{% url 'my:panel' %}"><i class="zmdi zmdi-view-dashboard zmdi-hc-2x"></i>داشبورد</a></li>
+                                <li><a class="waves-effect" href="{% url 'my:create_ad' %}"><i class="zmdi zmdi-notifications-add zmdi-hc-2x"></i>ثبت طرح جدید</a></li>
+
+                    {% endif %}
+{#                                <li><a class="waves-effect" href="{% url 'my:all_ads' %}"><i class="zmdi zmdi-view-list zmdi-hc-2x"></i>طرح های من</a></li>#}
+                                <li><a class="waves-effect" href="{% url 'my:pass' %}"><i class="zmdi zmdi-lock-open zmdi-hc-2x"></i>تغییر رمز عبور</a></li>
+                            <li><a class="waves-effect" href="{% url 'authentication:logout' %}"><i class="zmdi zmdi-power-off zmdi-hc-2x"></i>خروج از حساب کاربری</a></li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+            <div class="col s60 m60 l48">
+                <main class="front center" style="padding-top: 10px">
+<div class="row slidered" style="display: block; min-height: 500px">
+
+    {% if ads_list %}
+    {% for ad in ads_list %}
+
+    <div class="col s60 m30 l15">
+        <div class="card ad">
+            <div class="card-header activator blue lighten-1 white-text">
+                <div class="topbar">
+                <span class="category activator">
+                    {{ ad.category.title }}
+                </span><i class="zmdi zmdi-menu left"></i>
+                </div>
+                <div class="card-title center-align">
+                    <a href="{% url 'ads:show_ad' ad.id%}"><h2 style="font-size: 16px" class="card-title">{{ ad.title }}</h2></a>
+                </div>
+            </div>
+            <div class="card-pictures activator">
+                <div class="label col activator s13">
+                </div>
+                <div class="label col activator s34">
+                    <div class="circle white">
+                       {% if ad.images %}
+                            <img class=" activator" src="{{ ad.images.url }}">
+                       {% else %}
+                            <img class=" activator" src="{% static 'mainapp/img/grey.png'%} " style="left: 0;!important;">
+                       {% endif %}
+                    </div>
+                </div>
+                <div class="halfback blue lighten-1">&nbsp;</div>
+            </div>
+            <div class="card-content">
+                {% if ad.isReviewOK %}
+                <img class="verified-logo tooltipped" data-position="right" data-tooltip="تایید شده توسط حامی طرح" src="{% static 'mainapp/img/logo-trans.png' %}" width="40px">
+                {% endif %}
+
+               <span class="detail"><i class="zmdi zmdi-money-box"></i>   سرمایه مورد نیاز:   <span class="fund">{{ ad.fund }}</span>   تومان</span>
+
+                <!--<span class="detail"><i class="zmdi zmdi-money"></i> سرمایه مورد نیاز: {{ ad.ideaadvertisement.capitalNeed }} تومان</span>-->
+
+                <span class="detail"> <i class="zmdi zmdi-my-location"></i>  موقعیت:
+
+                {{ ad.location }}<br>
+                        </span>
+                {% load to-slash %}
+                <span class="detail"><i class="zmdi zmdi-time"></i> {{ ad.dateCreated|to_jalali:'%y/%m/%d' }}  </span>
+            </div>
+
+            <div class="card-reveal">
+                <span class="card-title category grey-text text-darken-4 ">{{ ad.title }}<i class="zmdi zmdi-menu left"></i></span>
+                    <br>
+                    <div class="center-align"><i class="zmdi zmdi-account zmdi-hc-2x"></i></div>
+                    <div class="center-align">{{ ad.owner }}</div>
+
+{#                {% if ad.inv_deadline %}#}
+{#                    {% load to-slash %}#}
+{#                    <br>#}
+{#                    <div class="center-align"><i class="zmdi zmdi-time-countdown zmdi-hc-2x"></i></div>#}
+{#                    <div class="center-align">{{ ad.inv_deadline | to_slash}}</div>#}
+{#                {% endif %}#}
+                    <br>
+                    <div class="center-align"><i class="zmdi zmdi-more-horiz zmdi-hc-2x"></i></div>
+                    <div class="center-align">{{ ad.summary|truncatechars:100 }}</div>
+
+                <br>
+                <p class="center-align">
+                    <a href="{% url 'ads:show_ad' ad.id%}" class="waves-effect waves-light btn">مشاهده طرح</a>
+                    <a href="{% url 'my:edit_ad' ad.id%}" class="waves-effect waves-light btn red">ویرایش طرح</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+        <h1 class="grey-text" style="padding-top: 15%">طرح ای ثبت نشده است.</h1>
+
+{% endif %}
+
+</div>
+
+</main>
+            </div>
+</div>
+
+
+
+
+
+
+
+
+
+{#<div class="side-nav fixed right-aligned">#}
+{#<ul id="slide-out" class="side-nav fixed" style="display: block">#}
+{#    <li><div class="user-view row">#}
+{##}
+{#        <div class="col s20">#}
+{#            <img class="circle" src="{% static 'mainapp/img/logo.png' %}" width="80px">#}
+{#        </div>#}
+{#        <div class="col s40">#}
+{#            <span class="name">{{ user.name }}</span>#}
+{#            <br>#}
+{#            <span class="email">{{ user.phone }}</span>#}
+{#        </div>#}
+{##}
+{##}
+{#    </div></li>#}
+{##}
+{#    <li><div class="divider"></div></li>#}
+{#    <li><a href="#!"><i class="zmdi zmdi-account zmdi-hc-2x"></i>ویرایش اطلاعات</a></li>#}
+{#    <li><a href="#!"><i class="zmdi zmdi-notifications-active zmdi-hc-2x"></i>مدیریت طرح ها</a></li>#}
+{#    <li><a href="#!"><i class="zmdi zmdi-money-box zmdi-hc-2x"></i>تراکنش ها</a></li>#}
+{#    <li><div class="divider"></div></li>#}
+{#    <li><a class="" href="{% url 'authentication:logout' %}"><i class="zmdi zmdi-power-off zmdi-hc-2x"></i>خروج</a></li>#}
+{#</ul>#}
+{#</div>#}
+
+<!--/* for body cards */-->
+
+
+
+<script>
+    $('.delete-btn').click(function () {
+    console.log(this.getAttribute('name'));
+    $('a#modal-delete').attr('href' ,  this.getAttribute('name') );
+    });
+
+$('th').addClass('center-align');
+$('td').addClass('center-align');
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = $('.delete-btn');
+
+// Get the <span> element that closes the modal
+var span = document.getElementById("close");
+
+// When the user clicks the button, open the modal
+btn.click(function() {
+    $('#myModal').show();
+}
+    );
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+};
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+
+}
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

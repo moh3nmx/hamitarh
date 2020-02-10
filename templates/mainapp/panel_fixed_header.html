@@ -1,0 +1,37 @@
+{% load static %}
+
+<header class="fixed" >
+    <div class="colapsible-menu" id="panel-menu-mobile" >
+        <ul class="collapsible white" data-collapsible="accordion" style="margin-top: 0">
+            <li>
+                <div class="collapsible-header"><i class="zmdi zmdi-menu"></i>منوی سایت</div>
+                <div class="collapsible-body">
+
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'my:panel' %}"><i class="zmdi zmdi-view-dashboard zmdi-hc-2x"></i> پنل کاربری </a>
+                    </div>
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'my:create_ad' %}"><i class="zmdi zmdi-notifications-add zmdi-hc-2x"></i>  ثبت طرح جدید </a>
+                    </div>
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'my:all_ads' %} "><i class="zmdi zmdi-view-list zmdi-hc-2x"></i> طرح های من </a>                    </div>
+                    <div>
+                        <a class="waves-effect waves-light btn btn-flat black-text" href="{% url 'authentication:logout' %}"><i class="zmdi zmdi-power-off zmdi-hc-2x"></i> خروج از حساب کاربری  </a>
+                    </div>
+
+
+                </div>
+            </li>
+
+        </ul>
+    </div>
+<nav class="fixed" style="position: fixed; top: 0; z-index: 1000;box-shadow: none">
+    <div class="nav-wrapper" style="position: fixed; top: 0">
+        <div class="left left-align" style="position: fixed; left: 0;">
+            <a href="{% url 'mainapp:index' %}" class="nav-link">حامی طرح</a>
+            <a href="{% url 'mainapp:index' %}"> <img class="logo nav-logo" src="{% static 'mainapp/img/logo.png' %}"></a>
+        </div>
+    </div>
+
+</nav>
+</header>
